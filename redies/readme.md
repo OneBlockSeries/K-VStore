@@ -1,8 +1,9 @@
 
-#redies分四部分来分析，写代码
+#redies分五个部分来分析，写代码
 ## part1 redies内存模型，也就是redies是如何把key-value数据存储到内存中，如何管理
-    1. neic
-    2. 
+    1. 数据存储：dictEntry(指针:key,value,next)  key:sds结构体  value:rediesObject  next:*dictEntry
+    2. 保存五种数据结构以后分析  字符串，列表，哈希，集合，有序集合
+    3. dict 和dictht
 
 ## part2 redies持久化，分两种rdb和aof 
     1. rdb
