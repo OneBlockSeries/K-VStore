@@ -33,13 +33,13 @@ src = $(wildcard ./*.cpp)
 obj = $(patsubst %.cpp, %.o, $(src))  
 #obj = $(src:%.c=%.o)  
 target=rediesapp
-CC=gcc 
+CC=g++ -std=c++11
 
 $(target):$(obj)
-	CC $(obj) -o ${target}
+	CC $(obj)  -lstdc++ -o ${target}
 
 %.o: %.cpp
-	$(CC) -c $< -o $@
+	$(CC) -c $< -o   $@
 
 .PHONY:	clean  
 clean:  
