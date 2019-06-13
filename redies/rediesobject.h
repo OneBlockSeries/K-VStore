@@ -1,0 +1,7 @@
+
+class rediesobject{
+
+public:
+
+private:
+}

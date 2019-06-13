@@ -10,5 +10,9 @@
     2. aof
     3. 
 ## part3 redies数据主从复制
+    1. dd
 ## part4 redies 哨兵
+    1. dd
+    2. dd
 ## part5 redies 集群
+    1. dd

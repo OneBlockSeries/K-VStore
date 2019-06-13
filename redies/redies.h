@@ -2,13 +2,9 @@
 #include <iostream>
 #include <string.h>
 
-class dictht{
-    public:
-
-    private:
-
-};
-
+#include "dict.h"
+#include "sds"
+#include "rediesobject.h"
 class Redies{
     public:
         Redies();
