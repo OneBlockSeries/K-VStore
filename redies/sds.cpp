@@ -1,6 +1,6 @@
 
 #include"sds.h"
-
+#include<cstring>
 sds::sds(){
 
     data=new char[10+1]; //默认开始是10，
@@ -13,10 +13,10 @@ sds::sds(const char* wdata){
     int wlen=strlen(wdata);
     if(wlen>10){
         data=new char[wlen+1+10];
-        memcpy(data,wdata,slen);
-        data[wlen]='\0'
-        free=10
-        len=wlen
+        memcpy(data,wdata,wlen);
+        data[wlen]='\0';
+        free=10;
+        len=wlen;
     }else{
 
         data=new char[10+1];
