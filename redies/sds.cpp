@@ -1,6 +1,7 @@
 
 #include"sds.h"
 #include<cstring>
+#include <stdio.h>
 sds::sds(){
 
     data=new char[10+1]; //默认开始是10，
@@ -28,7 +29,7 @@ sds::sds(const char* wdata){
 
 }
 sds::~sds(){
-
+    printf("~sds\n");
     delete []data;
 }
 const char* sds::getdata(){

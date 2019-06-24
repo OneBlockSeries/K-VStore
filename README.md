@@ -3,6 +3,9 @@ key-value store,including memcache redies
 
 
 
+总的领导，具体readme 在各自文件夹里，两者不同和区别，介绍为什么要写这个？讨论下分布式数据存储？一致性算法？
+
+
 ## **两者内存模型** 哈希表
 哈希表
 1. memcached 的内存模型：

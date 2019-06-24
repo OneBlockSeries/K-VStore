@@ -6,7 +6,7 @@ rediesObject::rediesObject(sds* s):type(REDIES_STRING),value((void*)s){
     
 }
 rediesObject::~rediesObject(){
-    //((sds*)value)->~sds();
+    ((sds*)value)->~sds();
     printf("~rediesobjec\n");
 
 }

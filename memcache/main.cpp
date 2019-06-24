@@ -3,6 +3,9 @@
 #include "memcached.h"
 int main(){
     
-    set("hello","memecached")
+    Memcached m;
+    m.set();
+    m.get();
+    m.del();
     return 0;
 }

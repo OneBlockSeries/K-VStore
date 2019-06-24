@@ -6,8 +6,8 @@
     3. dict 和dictht
 
 ## part2 redies持久化，分两种rdb和aof 
-    1. rdb
-    2. aof
+    1. RDB: 数据保存到硬盘
+    2. AOF: 每次执行的写命令保存到硬盘
     3. 
 ## part3 redies数据主从复制
     1. dd

@@ -3,8 +3,8 @@
 #include <string.h>
 
 #include "dict.h"
-#include "sds"
-#include "rediesobject.h"
+//#include "sds.h"
+//#include "rediesobject.h"
 class Redies{
     public:
         Redies();
@@ -17,5 +17,5 @@ class Redies{
         bool del(const char* key);
     private:
 
-    dictht  ht;
+    dict  d;
 };
