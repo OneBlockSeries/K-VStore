@@ -8,21 +8,21 @@ Redies::~Redies(){
 }
 bool Redies::put(const char* key,const int valuetype,const char* value){
 
-    sds k=sds(key);
-    sds sdsval=sds(value);
-    rediesObject v=rediesObject(&sdsval);
+    sds* k=new sds(key);
+    //sds* sdsval= new sds(value);
+    rediesObject* v=new rediesObject(value);
     //dictEntry e=dictEntry(&k,&v);
-    d.put(&k,&v);
+    d.put(k,v);
     return true;
 }
 const char* Redies::get(const char* key){
-    sds k=sds(key);
-    d.get(&k);
+     
+    d.get(key,strlen(key));
     return "hello";
 }
 bool Redies::del(const char* key){
-    sds k=sds(key);
-    d.del(&k);
+    
+    d.del(key,strlen(key));
     return true;
 }
 

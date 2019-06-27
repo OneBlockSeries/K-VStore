@@ -1,16 +1,20 @@
 
 #include "dict.h"
 #include <stdio.h>
+#include <string.h>
 /*----------dictEntry--------------------*/
 dictEntry::dictEntry(sds* key,uint64_t v):key(key){
+     printf("dictentry  uint64 construct\n");
     value.u64=v;
     next=nullptr;
 }
 dictEntry::dictEntry(sds* key,int64_t v):key(key){
+     printf("dictentry int64 construct\n");
     value.s64=v;
     next=nullptr;
 }
 dictEntry::dictEntry(sds* key,rediesObject* v):key(key){
+    printf("dictentry rediesobject construct\n");
     value.val=v;
     next=nullptr;
 }
@@ -21,7 +25,12 @@ dictEntry::~dictEntry(){
 /*------------dictht-------------------------*/
 
 dictht::dictht():size(16),used(0),sizemask(15){
+     printf("dictht construct\n");
     table=new dictEntry*[size];
+    for(int i=0;i<size;i++){
+        table[i]=nullptr;
+    }
+        
 }
 dictht::~dictht(){
     delete []table;
@@ -31,24 +40,29 @@ bool dictht::put(dictEntry* e,int index){
     if(table[index]==nullptr){
         //空
         table[index]=e;
-        printf("put sulless\n"); 
+        printf("put sulless empyt\n"); 
         return true;
     }else{
         dictEntry* next=table[index];
         while(next->next!=nullptr){
             next=next->next;
         }
-        printf("put sulless\n"); 
+        printf("put sulless not empty\n"); 
         next->next=e;
         return true;
     }
     printf("put fail\n"); 
     return false;
 } 
-const rediesObject* dictht::get(sds* s,int index){ 
+const rediesObject* dictht::get(const char* s,int index){ 
+     printf("dictht get index=%d\n",index);
     dictEntry* now=table[index];
-    while(now->next!=nullptr){
-        if(now->getkey()==s){
+    if(now==nullptr){
+        printf("now nullptr no data\n");
+        return nullptr;
+    }
+    while(now!=nullptr){
+        if(strcmp(now->getkey()->getdata(),s)==0){
             printf("get sulless\n"); 
             return now->getobject();
         }else{
@@ -60,9 +74,10 @@ const rediesObject* dictht::get(sds* s,int index){
     printf("get fail\n"); 
     return nullptr;
 } 
-bool dictht::del(sds* s,int index){
+bool dictht::del(const char* s,int index){
     dictEntry* now=table[index];
-    if(now->getkey()==s){
+    if(now==nullptr) return false;
+    if(strcmp(now->getkey()->getdata(),s)==0){
         delete now;
         table[index]=nullptr;
         printf("del sulless\n"); 
@@ -70,7 +85,7 @@ bool dictht::del(sds* s,int index){
     }else{
         //now=now->next;
         while(now->next!=nullptr){
-            if(now->next->getkey()==s){
+            if(strcmp(now->next->getkey()->getdata(),s)==0){
                delete now->next;
                now->next=nullptr;
                printf("del sulless\n"); 
@@ -85,15 +100,18 @@ bool dictht::del(sds* s,int index){
 
 /*------------dict-----------------------------*/
 dict::dict():rehashid(-1){
-
+     printf("dict construct\n");
 }
 dict::~dict(){
 
 }
 bool dict::put(sds* k,rediesObject* val){
-   unsigned int hash=keyhash((void*)k,k->getusedlen());
+     
+   unsigned int hash=keyhash((void*)k->getdata(),k->getusedlen());
+    printf("dict::put hash=%d,len=%d,\n",hash,k->getusedlen());
     if(rehashid==-1){
         int index=hash & ht[0].getsizemask();
+        printf("dictht::put index=%d\n",index);
         dictEntry* dentry=new dictEntry(k,val);
         return ht[0].put(dentry,index);
     }else{
@@ -102,9 +120,11 @@ bool dict::put(sds* k,rediesObject* val){
     return true;
 }
 bool dict::put(sds* k,uint64_t u64){
-   unsigned int hash=keyhash((void*)k,k->getusedlen());
+   unsigned int hash=keyhash((void*)k->getdata(),k->getusedlen());
+    
     if(rehashid==-1){
         int index=hash & ht[0].getsizemask();
+        printf("dictht::put index=%d\n",index);
         dictEntry* dentry=new dictEntry(k,u64);
         return ht[0].put(dentry,index);
     }else{
@@ -115,10 +135,12 @@ bool dict::put(sds* k,uint64_t u64){
 bool dict::put(sds* k,int64_t s64){
     return true;
 }
-const rediesObject* dict::get(sds* k){
-    unsigned int hash=keyhash((void*)k,k->getusedlen());
+const rediesObject* dict::get(const char* k,unsigned int len){
+    unsigned int hash=keyhash((void*)k,len);
+     printf("dict::get hash=%d,len=%d\n",hash,len);
     if(rehashid==-1){
        int index=hash & ht[0].getsizemask();
+       printf("dict::get index=%d\n",index);
         return ht[0].get(k,index);
     }else{
         printf("rehashing\n");
@@ -126,10 +148,12 @@ const rediesObject* dict::get(sds* k){
     }
     
 }
-bool dict::del(sds* k){
-    unsigned int hash=keyhash((void*)k,k->getusedlen());
+bool dict::del(const char* k,unsigned int len){
+    unsigned int hash=keyhash((void*)k,len);
+    
     if(rehashid==-1){
         int index=hash & ht[0].getsizemask();
+        printf("dict::del index=%d\n",index);
         return ht[0].del(k,index);
     }else{
         printf("rehashing\n");

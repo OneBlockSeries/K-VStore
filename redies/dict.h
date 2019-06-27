@@ -12,8 +12,8 @@ public:
 
   
     bool put(dictEntry* e,int index); //增加
-    const rediesObject* get(sds* s,int index);  //根据key 得到value
-    bool del(sds* s,int index);   //根据key,删除整个dictEntry;
+    const rediesObject* get(const char* s,int index);  //根据key 得到value
+    bool del(const char* s,int index);   //根据key,删除整个dictEntry;
 
     unsigned long getsize(){return size;};
     unsigned long getused(){return used;};
@@ -31,8 +31,8 @@ public:
     bool put(sds* k,rediesObject* val);
     bool put(sds* k,uint64_t u64);
     bool put(sds* k,int64_t s64);
-    const rediesObject* get(sds* k);
-    bool del(sds* k);
+    const rediesObject* get(const char* k,unsigned int len);
+    bool del(const char* k,unsigned int len);
 
     unsigned int keyhash(const void *key, int len);
 private:
@@ -50,7 +50,7 @@ public:
     dictEntry(sds* key,rediesObject* v);
 
     ~dictEntry();
-    const sds* getkey(){return key;};
+    sds* getkey(){return key;};
     const rediesObject* getobject(){return value.val;};
     dictEntry* next;//解决冲突
 private:

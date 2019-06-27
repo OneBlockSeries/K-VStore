@@ -1,8 +1,12 @@
 
 #include "rediesobject.h"
 #include <stdio.h>
-rediesObject::rediesObject(sds* s):type(REDIES_STRING),value((void*)s){
-
+rediesObject::rediesObject(const char* s):type(REDIES_STRING){
+    printf("rediesobject construct\n");
+    if(type==REDIES_STRING){
+        sds* va=new sds(s);
+        value=(void*)va;
+    }
     
 }
 rediesObject::~rediesObject(){

@@ -11,7 +11,7 @@ enum Type{
 };
 class rediesObject{
 public:
-    rediesObject(sds* s);
+    rediesObject(const char* s);
     ~rediesObject();
 
     const unsigned Gettype();
